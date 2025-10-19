@@ -1,0 +1,7 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="120" fill="#007c41"/>
+  <rect x="20" y="30" width="80" height="60" fill="#ffffff"/>
+  <rect x="28" y="38" width="30" height="44" fill="#007c41"/>
+  <rect x="62" y="38" width="30" height="44" fill="#007c41"/>
+  <text x="34" y="70" font-family="Arial" font-weight="700" font-size="28" fill="#ffffff">TD</text>
+</svg>
