@@ -1,5 +1,5 @@
-# DocChat Next (TD-style)
-- **Frontend:** Next.js (TypeScript), TD green/white theme with embedded TD-style logo
+# DocChat Next
+- **Frontend:** Next.js (TypeScript), TD green/white theme with embedded  logo
 - **Backend:** FastAPI + LangChain + FAISS (no Docker)
 - **Auth:** admin/admin (admin), frp/pass (user)
 - **Features:** Admin ingests Excel/CSV/Word docx → FAISS; Chat with citations; Export Word
