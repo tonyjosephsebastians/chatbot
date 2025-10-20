@@ -1,12 +1,12 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import API from '@/lib/api'
-import { loadSession, clearSession } from '@/lib/auth'
+import { loadSession } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import { Send, Download, ExternalLink } from 'lucide-react'
 
-type Citation = { source?: string, chunk?: number, preview?: string }
+type Citation = { source?: string, chunk?: number, preview?: string, page?: number }
 type ChatResp = { answer: string, citations: Citation[] }
 
 export default function ChatPage(){
@@ -19,6 +19,7 @@ export default function ChatPage(){
   const [busy, setBusy] = useState(false)
   const router = useRouter()
   const session = loadSession()
+  const previewRef = useRef<HTMLDivElement>(null)
 
   useEffect(()=>{ if(!session) router.replace('/login') },[router])
 
@@ -50,6 +51,11 @@ export default function ChatPage(){
       const html = await res.text()
       setPreviewHtml(html)
       setPreviewOpen(true)
+      setTimeout(() => {
+        // Scroll smoothly to highlighted section (first <mark>)
+        const mark = previewRef.current?.querySelector('mark')
+        if(mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 500)
     }catch(e){ console.error(e) }
   }
 
@@ -68,18 +74,28 @@ export default function ChatPage(){
     <div style={{position:'relative'}}>
       <div className="card">
         <h1>Chat</h1>
+
         <textarea
           value={question}
           onChange={e=>setQuestion(e.target.value)}
           className="input textarea"
           placeholder="Ask about your SOP, DOCX, or Excel data..."
         />
+
         <div style={{marginTop: 12, display:'flex', gap:10}}>
           <button className="td-btn" onClick={ask} disabled={busy}>
             {busy ? <span className="spinner"/> : <Send size={18}/>} Ask
           </button>
-          <button className="td-btn" onClick={exportDoc}><Download size={18}/> Export Summary</button>
+          <button className="td-btn" onClick={exportDoc}>
+            <Download size={18}/> Export Summary
+          </button>
         </div>
+
+        {busy && (
+          <div style={{marginTop:10, color:'#007c41', fontWeight:600}}>
+            Thinking... please wait
+          </div>
+        )}
 
         {error && <div style={{color:'#b00020', marginTop:10}}>{error}</div>}
 
@@ -97,7 +113,7 @@ export default function ChatPage(){
               {cites.map((c,i)=>(
                 <li key={i} className="citation">
                   <a href="#" onClick={(e)=>{e.preventDefault(); openPreview(c)}} className="link-btn">
-                    <ExternalLink size={14}/> <strong>{c.source}</strong> (chunk {c.chunk})
+                    <ExternalLink size={14}/> <strong>{c.source}</strong> (page {c.page ?? c.chunk})
                   </a><br/>
                   <span>{c.preview}</span>
                 </li>
@@ -113,7 +129,11 @@ export default function ChatPage(){
             <strong>Source Preview</strong>
             <button className="td-btn" onClick={()=>setPreviewOpen(false)}>Close</button>
           </div>
-          <div style={{height:'calc(100% - 48px)', overflow:'auto'}} dangerouslySetInnerHTML={{ __html: previewHtml }} />
+          <div
+            ref={previewRef}
+            style={{height:'calc(100% - 48px)', overflow:'auto', scrollBehavior:'smooth'}}
+            dangerouslySetInnerHTML={{ __html: previewHtml }}
+          />
         </div>
       )}
     </div>
