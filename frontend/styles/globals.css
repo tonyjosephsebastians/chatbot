@@ -8,19 +8,68 @@
 html,body{padding:0;margin:0;height:100%;font-family:Helvetica,Arial,sans-serif;background:var(--td-bg);color:var(--td-text)}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer}
-.container{max-width:960px;margin:0 auto;padding:24px}
-.card{background:#fff;border:1px solid #e6e6e6;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,0.04);padding:20px}
-.td-btn{background:var(--td-green);color:#fff;border:none;border-radius:8px;padding:10px 16px;font-weight:600}
-.td-btn:hover{background:var(--td-green-600)}
-.input{border:1px solid #d4d4d4;border-radius:8px;padding:10px 12px;width:100%}
-.row{display:flex;gap:16px;align-items:center}
-.logo-box{display:flex;align-items:center;gap:12px}
-.sidebar-logo{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-.page{display:grid;grid-template-columns:260px 1fr;gap:24px;min-height:100vh}
-.sidebar{background:#f6f9f7;border-right:1px solid #e2eee8;padding:24px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand h1{font-size:18px;margin:0}
-.headbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.citation{font-size:12px;color:#3a4a4a}
 
-.drawer{position:fixed;top:0;right:0;width:48%;height:100vh;background:#fff;border-left:1px solid #e6e6e6}
+.container{max-width:1100px;margin:0 auto;padding:32px}
+
+/* Header */
+.header{
+  position:sticky; top:0; z-index:40;
+  background:#f6f9f7; border-bottom:1px solid #e2eee8;
+}
+.header-inner{
+  max-width:1100px; margin:0 auto; padding:14px 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-title{font-size:20px;font-weight:700}
+.nav{display:flex;gap:14px;align-items:center}
+
+/* Card / Inputs / Buttons (larger) */
+.card{
+  background:#fff;border:1px solid #e6e6e6;border-radius:14px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.06);padding:24px
+}
+.input{
+  border:1px solid #cfd8d3;border-radius:10px;padding:14px 14px;width:100%;
+  font-size:16px
+}
+.textarea{min-height:140px;font-size:16px}
+.td-btn{
+  background:var(--td-green);color:#fff;border:none;border-radius:10px;
+  padding:12px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px
+}
+.td-btn:hover{background:var(--td-green-600)}
+.link-btn{font-weight:600}
+
+/* Headings / text */
+h1{font-size:28px;margin:0 0 8px}
+h2{font-size:24px;margin:0 0 8px}
+h3{font-size:18px;margin:18px 0 8px}
+p, li{font-size:16px;line-height:1.5}
+
+/* Citations */
+.citation{font-size:13px;color:#3a4a4a}
+
+/* Drawer */
+.drawer{position:fixed; top:0; right:0; width:48%; height:100vh; background:#fff;
+  border-left:1px solid #e6e6e6; box-shadow:-2px 0 10px rgba(0,0,0,0.08); z-index:50}
+.drawer-head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 12px; border-bottom:1px solid #e6e6e6; background:#f6f9f7
+}
+
+/* Spinners */
+.spinner{
+  width:18px;height:18px;border-radius:50%; border:3px solid #cfe6d8; border-top-color:var(--td-green);
+  animation:spin 0.9s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Markdown content */
+.md h1{font-size:22px;margin-top:14px}
+.md h2{font-size:20px;margin-top:14px}
+.md h3{font-size:18px;margin-top:12px}
+.md code{background:#f5f7f9;padding:2px 6px;border-radius:6px}
+.md pre{background:#0b1020;color:#e9eefb;padding:12px;border-radius:10px;overflow:auto}
+.md table{border-collapse:collapse;width:100%}
+.md th,.md td{border:1px solid #e6e6e6;padding:6px 8px;text-align:left}
