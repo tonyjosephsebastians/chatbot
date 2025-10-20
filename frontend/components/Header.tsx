@@ -7,7 +7,7 @@ import { LogOut, MessageCircle, FileUp } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
 
 export default function Header() {
-  const [role, setRole] = useState<'admin'|'user'|null>(null)
+  const [role, setRole] = useState<'admin' | 'user' | null>(null)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -16,7 +16,7 @@ export default function Header() {
     setRole(s?.role ?? null)
   }, [pathname])
 
-  function doLogout(){
+  function doLogout() {
     clearSession()
     router.replace('/login')
   }
@@ -26,14 +26,25 @@ export default function Header() {
       <div className="header-inner">
         <div className="brand">
           <Image src="/td-logo.svg" alt="TD" width={32} height={32} />
-          <div className="brand-title">SOP Doc Chat</div>
+          <div className="brand-title">SOP Docs Chat</div>
         </div>
         <nav className="nav">
           <Link className="link-btn" href="/chat"><MessageCircle size={18}/> Chat</Link>
           {role === 'admin' && (
             <Link className="link-btn" href="/ingest"><FileUp size={18}/> Ingest</Link>
           )}
-          <button className="td-btn" onClick={doLogout}><LogOut size={18}/> Logout</button>
+          <button
+            title="Logout"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              padding: 6,
+              cursor: 'pointer',
+            }}
+            onClick={doLogout}
+          >
+            <LogOut size={22} color="#007c41" />
+          </button>
         </nav>
       </div>
     </header>
