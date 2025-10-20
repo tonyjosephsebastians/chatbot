@@ -147,7 +147,12 @@ def view(source: str = Query(...), chunk: int = Query(...)):
     # Highlight the first occurrence of the target text
     safe_target = html.escape(target.strip())
     if safe_target:
-        html_body = html_body.replace(safe_target, f"<mark style='background:#e6f4ea;border-radius:4px;'>{safe_target}</mark>", 1)
+        html_body = html_body.replace(
+            safe_target,
+            f"<a id='chunk-{chunk}'></a><mark style='background:#e6f4ea;border-radius:4px;'>{safe_target}</mark>",
+            1
+        )
+
 
     # Wrap in minimal page with TD-like styles
     page = f"""
