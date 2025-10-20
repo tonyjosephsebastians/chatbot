@@ -14,6 +14,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import mammoth
 import pandas as pd
 import html
+import re
 
 app = FastAPI(title="DocChat API", version="0.2.0")
 
@@ -145,14 +146,18 @@ def view(source: str = Query(...), chunk: int = Query(...)):
         html_body = f"<pre>{html.escape(raw_text)}</pre>"
 
     # Highlight the first occurrence of the target text
-    safe_target = html.escape(target.strip())
-    if safe_target:
-        html_body = html_body.replace(
-            safe_target,
-            f"<a id='chunk-{chunk}'></a><mark style='background:#e6f4ea;border-radius:4px;'>{safe_target}</mark>",
-            1
-        )
 
+
+    safe_target = re.escape(target.strip())
+    pattern = re.compile(safe_target, re.IGNORECASE)
+    def add_anchor_once(match):
+        return f"<a id='chunk-{chunk}'></a><mark style='background:#e6f4ea;border-radius:4px;'>{match.group(0)}</mark>"
+    
+    html_body, n = pattern.subn(add_anchor_once, html_body, count=1)
+    if n == 0:
+        # fallback if not found, add anchor to top
+        html_body = f"<a id='chunk-{chunk}'></a>" + html_body
+    
 
     # Wrap in minimal page with TD-like styles
     page = f"""
