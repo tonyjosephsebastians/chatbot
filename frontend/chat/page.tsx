@@ -52,10 +52,15 @@ export default function ChatPage(){
       setPreviewHtml(html)
       setPreviewOpen(true)
       setTimeout(() => {
-        // Scroll smoothly to highlighted section (first <mark>)
+      const anchor = previewRef.current?.querySelector(`#chunk-${c.chunk}`)
+      if (anchor) {
+        anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      } else {
         const mark = previewRef.current?.querySelector('mark')
-        if(mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }, 500)
+        if (mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }, 500)
+
     }catch(e){ console.error(e) }
   }
 
