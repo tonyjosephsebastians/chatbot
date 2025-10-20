@@ -37,8 +37,9 @@ def answer_question(question: str) -> Dict[str, Any]:
     for d in sources:
         md = d.metadata or {}
         citations.append({
-            "source": md.get("source"),
-            "chunk": md.get("chunk"),
-            "preview": d.page_content[:200]
-        })
+        "source": md.get("source"),
+        "chunk": md.get("chunk"),
+        "page": md.get("page", i // 5 + 1),  # ← Adds a pseudo page number
+        "preview": doc.page_content[:200]
+    })
     return {"answer": answer, "citations": citations}
