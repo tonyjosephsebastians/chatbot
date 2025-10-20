@@ -51,15 +51,18 @@ export default function ChatPage(){
       const html = await res.text()
       setPreviewHtml(html)
       setPreviewOpen(true)
-      setTimeout(() => {
-      const anchor = previewRef.current?.querySelector(`#chunk-${c.chunk}`)
-      if (anchor) {
-        anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      } else {
-        const mark = previewRef.current?.querySelector('mark')
-        if (mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setTimeout(() => {
+      const tryScroll = (attempt = 1) => {
+        const anchor = previewRef.current?.querySelector(`#chunk-${c.chunk}`)
+        if (anchor) {
+          anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else if (attempt < 3) {
+          setTimeout(() => tryScroll(attempt + 1), 300)
+        }
       }
+      tryScroll()
     }, 500)
+
 
     }catch(e){ console.error(e) }
   }
